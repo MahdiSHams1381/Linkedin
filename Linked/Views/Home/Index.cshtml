@@ -52,7 +52,7 @@
 
             <div class="profile">
                 <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
-                <h1 class="text-light"><a asp-controller="Profile" asp-action="Index">@Model.Use_ThisUser.name</a></h1>
+                <h1 class="text-light"><a asp-controller="Profile" asp-action="Index">@Model.Use_ThisUser.Name</a></h1>
                 <div class="social-links mt-3 text-center">
                     <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
                     <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -74,12 +74,12 @@
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
         <div class="hero-container" data-aos="fade-in">
-            <h1>@Model.Use_ThisUser.name</h1>
+            <h1>@Model.Use_ThisUser.Name</h1>
             @{
                 string e = "";
-                foreach(string q in Model.Use_ThisUser.specialties)
+                foreach(var q in Model.Use_ThisUser.UserSpecialties)
                 {
-                    e += q+",";
+                    e += q.Specialty.Title+",";
                 }
 
             <p>I'm <span class="typed" data-typed-items=@e></span></p>
@@ -95,7 +95,7 @@
 
                 <div class="section-title">
                     <h2>About</h2>
-                    <p>Birth : @Model.Use_ThisUser.dateOfBirth <br /> workplace : @Model.Use_ThisUser.workplace <br />university Location : @Model.Use_ThisUser.universityLocation <br /> field : @Model.Use_ThisUser.field </p>
+                    <p>Birth : @Model.Use_ThisUser.DateOfBirth <br /> workplace : @Model.Use_ThisUser.WorkPlace <br />university Location : @Model.Use_ThisUser.UniversityLocation <br /> field : @Model.Use_ThisUser.Field </p>
                 </div>
             </div>
         </section><!-- End About Section -->

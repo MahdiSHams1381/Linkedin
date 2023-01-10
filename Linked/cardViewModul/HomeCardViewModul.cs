@@ -1,11 +1,12 @@
-﻿using Linked.Models.User;
+﻿
 using System.Collections.Generic;
+using Domain;
 
 namespace Linked.cardViewModul
 {
     public class HomeCardViewModul
     {
-        public List<user> LIST_UserToConection = new List<user>();
-        public user Use_ThisUser = new user();
+        public List<User> LIST_UserToConection = new List<User>();
+        public User Use_ThisUser = new User();
     }
 }

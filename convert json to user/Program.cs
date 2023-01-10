@@ -17,16 +17,7 @@ namespace CSharpCornerJSONArticle
 {
     public class user
     {
-        [DisplayName("Upload File")]
-        public IFormFile? IMG_ProfileImge { get; set; }
-        public string id { get; set; }
-        public string dateOfBirth { get; set; }
-        public string name { get; set; }
-        public string workplace { get; set; }
-        public string field { get; set; }
-        public string universityLocation { get; set; }
-        public List<string> specialties { get; set; }
-        public List<string> connectionId { get; set; }
+        
        
         class Program
         {
