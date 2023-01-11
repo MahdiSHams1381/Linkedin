@@ -25,19 +25,11 @@ namespace Linked.Controllers
         {
             //var temp = new ReadData(_User);
             //await temp.ReadDataFromJsonAsync();
-            User User_User = new api().FUNC_SearchUser(UserId);
-           // List<User> LIST_UserToConection = new api().FUNC_findeThePersonConection(User_User);
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "SignIn");
             HomeCardViewModul homeCardViewModul = new HomeCardViewModul();
-         //   homeCardViewModul.LIST_UserToConection = LIST_UserToConection;
-            homeCardViewModul.Use_ThisUser = User_User;
-            //----------------------------------------------------------------------
-            List<string> d = new List<string>();
-            d.Add("computerENG");
-            d.Add("developer");
-            d.Add("student");
-            User r = new User { Id = 1, Name = "Mahdi Shams", UniversityLocation = "ssss", WorkPlace = "ddddd", Field = "fffff" };
-            homeCardViewModul.Use_ThisUser = r;
-            //----------------------------------------------------------------------
+            homeCardViewModul.Use_ThisUser = await _User.GetUserAsync(1);
+            
             return View(homeCardViewModul);
         }
 

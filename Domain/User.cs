@@ -92,4 +92,5 @@ namespace Domain
 
         public int ToUserId { get; set; }
     }
+
 }

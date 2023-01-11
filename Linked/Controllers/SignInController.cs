@@ -8,6 +8,11 @@ using Microsoft.Extensions.Logging;
 using Services;
 using System.Threading.Tasks;
 using Domain;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Collections.Generic;
+using System.Security.Claims;
+using Linked.cardViewModul;
 
 namespace Linked.Controllers
 {
@@ -19,14 +24,42 @@ namespace Linked.Controllers
             _user = user;
         }
 
-        public async Task Addperson(int INT_Id__IdForEachUser__theAnalysesValue, DateTime DATE_YearOfBirth, string STR_FirstName__FirstNameOFUser, string STR_WorkPlace__ThePlaceOfUserWork, string Str_Field__TheFieldOfStudy, string STR_University__ThePlaceOfUnivesity)
-        {
-            User User_NewUser = new User { Id = INT_Id__IdForEachUser__theAnalysesValue, Name = STR_FirstName__FirstNameOFUser, Field = Str_Field__TheFieldOfStudy, UniversityLocation = STR_University__ThePlaceOfUnivesity, WorkPlace = STR_WorkPlace__ThePlaceOfUserWork };
-            await _user.AddUserAsync(User_NewUser);
-        }
         public IActionResult Index()
         {
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Index(SignInViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            var user = await _user.GetUserByNameOrId(model.NameOrId);
+            if (user != null && !string.IsNullOrWhiteSpace(user.Name))
+            {
+                UserAuthentication(user.Id, user.Name, model.RememberMe);
+            }
+            else
+            {
+                ModelState.AddModelError("Password", "Name Or Id doesn't Exist !");
+                return View(model);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        private List<Claim> UserAuthentication(int id, string userName, bool isRememberMe = false)
+        {
+            var claims = new List<Claim>()
+            {
+                new System.Security.Claims.Claim(ClaimTypes.Name,userName),
+                new System.Security.Claims.Claim(ClaimTypes.NameIdentifier,id.ToString())
+            };
+            ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principle = new ClaimsPrincipal(identity);
+            var properties = new AuthenticationProperties()
+            {
+                IsPersistent = isRememberMe
+            };
+            HttpContext.SignInAsync(principle, properties);
+            return claims;
         }
     }
 }
