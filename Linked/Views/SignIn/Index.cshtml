@@ -1,1 +1,47 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Sign In";
+}
+@model Linked.cardViewModul.SignInViewModel
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Sign In</h2>
+                <ol>
+                    <li><a href="/">Home</a></li>
+                    <li>Sign In</li>
+                </ol>
+            </div>
+
+        </div>
+    </section><!-- End Breadcrumbs -->
+
+    <section class="inner-page">
+        <div class="container os">
+            <form asp-controller="SignIn" method="post">
+                <div class="row">
+                <div class="col-12 " style="margin-left: 34%;">
+                    
+                        <label style="font-family: cursive;    font-size: 110%;">Name Or Id</label><br />
+                    <input class="form-control" asp-for="NameOrId" placeholder=" First Name. ..." style="border-radius: 9px;background-color: #ecedf3;border-color: white;max-width: 30%;width: 40%;" /><br />
+                        <span asp-validation-for="NameOrId" class="badge badge-danger"></span><br />
+                        <label style="font-family: cursive;    font-size: 110%;">Remember Me</label><br />
+                         <input class="form-check form-check-input" asp-for="RememberMe" style="width:3%;margin:10px;" /><br />
+
+                    
+                </div>
+                <div class="col-xs-6 col-sm-6 col-sm-6 col-lg-6 " style="margin-left: 44%;">
+                    
+                    <button type="submit" class="btn btn-lg btn-outline-success" style="/*border-radius: 52px;background-color: #212431b3;border-color: white; color: antiquewhite;*/ font-family: emoji;">
+                        <i class="bi bi-person-fill-check"></i>
+                        </button>
+                </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+</main><!-- End #main -->

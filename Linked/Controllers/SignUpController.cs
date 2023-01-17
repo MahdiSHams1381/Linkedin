@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.IO;
+using System.Linq;
+using Linked.cardViewModul;
 
 namespace Linked.Controllers
 {
@@ -21,33 +23,57 @@ namespace Linked.Controllers
 
         public IActionResult Index()
         {
-            return View(new User());
+            var model = new SignUpViewModel();
+            return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Index(User model,IFormFile Profile)
+        public async Task<IActionResult> Index(SignUpViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
-            if (await _user.IsUserExistAsync(model))
+            if (!model.Name.Any(n => Char.IsLetter(n) == true))
+            {
+                ModelState.AddModelError("Name", "Name Should have at least one letter !");
+                return View(model);
+            }
+                if (await _user.IsUserExistAsync(model.Name))
             {
                 ModelState.AddModelError("Name", "User name is already registered");
                 return View(model);
             }
-            if (Profile == null)
+
+            string profileName;
+            if (model.Profile == null)
             {
-                model.Profile = "/assets/img/Defult.jpg";
+                profileName = "/assets/img/hero-bg.jpg";
             }
             else
             {
-                string newAvatarURL = Guid.NewGuid().ToString() + Path.GetExtension(Profile.FileName);
+                string newAvatarURL = Guid.NewGuid().ToString() + Path.GetExtension(model.Profile.FileName);
                 string newPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets", "img", "Profile", newAvatarURL);
                 using (var stream = new FileStream(newPath, FileMode.Create))
                 {
-                    Profile.CopyTo(stream);
+                    model.Profile.CopyTo(stream);
                 }
-                model.Profile = newAvatarURL;
+                profileName = "/assets/img/Profile/" + newAvatarURL;
             }
-            await _user.AddUserAsync(model);
+            User newUser = new Domain.User
+            {
+                DateOfBirth = model.DateOfBirth,
+                Field = model.Field,
+                Name = model.Name,
+                Profile = profileName,
+                UniversityLocation = model.UniversityLocation,
+                WorkPlace = model.WorkPlace,
+
+            };
+            await _user.AddUserAsync(newUser);
+            await _user.SaveChangesAsync();
+            foreach (var spec in model.UserSpecialties.Split(","))
+            {
+                await _user.AddSpecialityToUserAsync(newUser.Id,spec);
+            }
+            await _user.SaveChangesAsync();
             return RedirectToAction("Index", "SignIn");
         }
 

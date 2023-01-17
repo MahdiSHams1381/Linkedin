@@ -1,71 +1,202 @@
-﻿@{
-    ViewData["Title"] = "Profile " + @User.Identity.Name;
+﻿@using Linked.cardViewModul
+@{
+	ViewData["Title"] = "Profile " + @User.Identity.Name;
+}
+@model ProfileViewModel;
+
+@section Head{
+	<style>
+		.search-left-menu {
+			background-color: white;
+			color: black;
+			margin: 0;
+			line-height: 31px;
+			text-align: right;
+			cursor: pointer;
+			z-index: 3;
+			/*    padding-left: 174px;
+								*/ position: absolute;
+			z-index: 99999;
+		}
+
+		.suggest {
+			height: 30px;
+			/* border:1px solid lightgray;*/
+			border-radius: 10px;
+			/*background: #ccc;*/
+			/*border-bottom: black 1px solid;*/
+		}
+
+			.suggest:hover {
+				/*border: 1px solid lightgray;
+											border-radius: 10px;*/
+				background: #040b14;
+				color: whitesmoke;
+				transition: 0.5s;
+			}
+
+		.scrollUL {
+			list-style: none;
+			height: 100px;
+			overflow-x: hidden;
+			overflow-y: scroll;
+			width: 30%;
+			height: 20%;
+		}
+
+	</style>
 }
 
-    <main id="main">
+	<main id="main">
 
-        <!-- ======= Breadcrumbs ======= -->
-        <section id="breadcrumbs" class="breadcrumbs">
-            <div class="container">
 
-                <div class="d-flex justify-content-between align-items-center">
-                    <h2>Portfoio Details</h2>
-                    <ol>
-                        <li><a href="index.html">Home</a></li>
-                        <li>Portfoio Details</li>
-                    </ol>
-                </div>
+		<!-- ======= Breadcrumbs ======= -->
+		<section id="breadcrumbs" class="breadcrumbs">
+			<div class="container">
 
-            </div>
-        </section><!-- End Breadcrumbs -->
-        <!-- ======= Portfolio Details Section ======= -->
-        <section id="portfolio-details" class="portfolio-details">
-            <div class="container">
+				<div class="d-flex justify-content-between align-items-center">
+					<h2>Portfoio Details</h2>
+					<ol>
+						<li><a href="/">Home</a></li>
+						<li>Profile Details</li>
+					</ol>
+				</div>
 
-                <div class="row gy-4">
+			</div>
+		</section><!-- End Breadcrumbs -->
+		<!-- ======= Portfolio Details Section ======= -->
+		<section id="portfolio-details" class="portfolio-details">
+			<div class="container">
 
-                    <div class="col-lg-8">
-                        <div class="portfolio-details-slider swiper">
-                            <div class="swiper-wrapper align-items-center">
+				<div class="row gy-12">
 
-                                <div class="swiper-slide">
-                                    <img src="assets/img/portfolio/portfolio-details-1.jpg" alt="">
-                                </div>
 
-                                <div class="swiper-slide">
-                                    <img src="assets/img/portfolio/portfolio-details-2.jpg" alt="">
-                                </div>
+					<section class="inner-page">
+						<div class="container os">
+							<form asp-controller="Profile" method="post" enctype="multipart/form-data">
+								<div class="row">
+									<div class="col-12 " style="margin-left: 34%;">
+										<input type="hidden" asp-for="Id" />
+										<input type="hidden" asp-for="OldProfile" />
+										<label style="font-family: cursive;    font-size: 110%;">Name</label><br />
+										<input class="form-control" asp-for="Name" placeholder=" First Name. ..." style="border-radius: 9px;background-color: #ecedf3;border-color: white;max-width: 30%;width: 40%;" /><br />
+										<span asp-validation-for="Name" class="badge badge-danger"></span><br />
 
-                                <div class="swiper-slide">
-                                    <img src="assets/img/portfolio/portfolio-details-3.jpg" alt="">
-                                </div>
+										<label style="font-family: cursive;    font-size: 110%;">Date Of Birth</label><br />
+										<input class="form-control" asp-for="DateOfBirth" type="date" placeholder=" Year Of Birth ...." style="border-radius: 9px;background-color: #ecedf3;border-color: white;max-width: 30%;width: 40%;" /><br />
+										<span asp-validation-for="DateOfBirth" class="badge badge-danger"></span><br />
 
-                            </div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-                    </div>
+										<label style="font-family: cursive;    font-size: 110%;">Work Place</label><br />
+										<input class="form-control" asp-for="WorkPlace" placeholder=" Work Place ...." style="border-radius: 9px;background-color: #ecedf3;border-color: white;max-width: 30%;width: 40%;" /><br />
+										<span asp-validation-for="WorkPlace" class="badge badge-danger"></span><br />
 
-                    <div class="col-lg-4">
-                        <div class="portfolio-info">
-                            <h3>Project information</h3>
-                            <ul>
-                                <li><strong>Category</strong>: Web design</li>
-                                <li><strong>Client</strong>: ASU Company</li>
-                                <li><strong>Project date</strong>: 01 March, 2020</li>
-                                <li><strong>Project URL</strong>: <a href="#">www.example.com</a></li>
-                            </ul>
-                        </div>
-                        <div class="portfolio-description">
-                            <h2>This is an example of portfolio detail</h2>
-                            <p>
-                                Autem ipsum nam porro corporis rerum. Quis eos dolorem eos itaque inventore commodi labore quia quia. Exercitationem repudiandae officiis neque suscipit non officia eaque itaque enim. Voluptatem officia accusantium nesciunt est omnis tempora consectetur dignissimos. Sequi nulla at esse enim cum deserunt eius.
-                            </p>
-                        </div>
-                    </div>
+										<label style="font-family: cursive;    font-size: 110%;">Filed</label><br />
+										<input class="form-control" asp-for="Field" placeholder=" Filed ...." style="border-radius: 9px;background-color: #ecedf3;border-color: white;max-width: 30%;width: 40%;" /><br />
+										<span asp-validation-for="Field" class="badge badge-danger"></span><br />
 
-                </div>
+										<label style="font-family: cursive;    font-size: 110%;">University</label><br />
+										<input class="form-control" asp-for="UniversityLocation" placeholder="University Location ...." style="border-radius: 9px;background-color: #ecedf3;border-color: white;max-width: 30%;width: 40%;" /><br /><br />
+										<span asp-validation-for="UniversityLocation" class="badge badge-danger"></span><br />
 
-            </div>
-        </section><!-- End Portfolio Details Section -->
+										<label style="font-family: cursive;    font-size: 110%;">Profile Image</label><br />
+										<input type="file" class="form-control" asp-for="Profile" placeholder="Profile ...." style="border-radius: 9px;background-color: #ecedf3;border-color: white;max-width: 30%;width: 40%;" /><br /><br />
+										<span asp-validation-for="Profile" class="badge badge-danger"></span><br />
 
-    </main><!-- End #main -->
+										<label style="font-family: cursive;    font-size: 110%;">Add new Specialties</label><br />
+										<input id="specInput" oninput="AutoComplete(this.value)" class="form-control" asp-for="Specialty" placeholder="Specialties ...." style="border-radius: 9px;background-color: #ecedf3;border-color: white;max-width: 30%;width: 40%;" /><br /><br />
+										<ul class="search-left-menu scrollUL" style="display:none" id="cmbSearchCity"></ul>
+										<span asp-validation-for="Specialty" class="badge badge-danger"></span><br />
+
+
+									</div>
+									<div class="col-xs-6 col-sm-6 col-sm-6 col-lg-6 " id="sub" style="margin:0% 0px 0% 44%">
+
+										<button type="submit" class="btn btn-lg btn-outline-success" style="/*border-radius: 52px;background-color: #212431b3;border-color: white; color: antiquewhite;*/ font-family: emoji;">
+											<i class="bi bi-person-vcard"></i>
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</section>
+
+					<div class="row">
+						@if(Model.OldSpecialty!=null)
+				@foreach (var item in Model.OldSpecialty)
+				{
+					<div class="col-md-3 col-xl-2">
+						<span>@item.Specialty.Title</span>
+						<a class="btn btn-outline-danger" href="/api/RemoveUserSpecialty?id=@(item.SpecialtyId)">
+								<i class="bi bi-x-lg "></i>
+						</a>
+					</div>
+				}
+				</div>
+			</div>
+
+		</div>
+	</section><!-- End Portfolio Details Section -->
+
+
+
+
+</main><!-- End #main -->
+@section Scripts{
+
+	<script>
+		function AutoComplete(parameter) {
+			var res = "";
+			var finalres = "";
+			$('#cmbSearchCity').empty();
+			$.ajax({
+				type: "GET",
+				url: '/Api/SuggestSpecialty?title=' + parameter + '',
+				dataType: "json",
+				contentType: false,
+				processData: false,
+				success: function (response) {
+					console.log(response);
+					if (response.count = 0) {
+
+						document.getElementById('cmbSearchCity').setAttribute("style", "display:none");
+						document.getElementById('sub').style = "margin:0% 0px 0% 44%";
+					}
+					else {
+						$('#cmbSearchCity').empty();
+						document.getElementById('cmbSearchCity').style = "display:block";
+						document.getElementById('sub').style = "margin:20% 0px 0% 44%";
+						$.each(response.result, function () {
+							res += "<li class=\"suggest text-center\" data-value=" + this.id + " onclick='FillInput(\"" + this.title + "\")'><a   style='margin-right:15px'>" + this.title + "</a></li>";
+						});
+						finalres = "<ul>" + res + "</ul>";
+						$('#cmbSearchCity').append(res);
+						$('#cmbSearchCity').click();
+
+					}
+				},
+			});
+		}
+	</script>
+	<script>
+		function FillInput(title) {
+			console.log(title);
+			console.log($("#specInput").val())
+			$.ajax({
+				type: "GET",
+				url: '/Api/FillInput?title=' + title + '&text=' + $("#specInput").val(),
+				success: function (response) {
+					console.log(response);
+					document.getElementById('specInput').value = response;
+					document.getElementById('specInput').focus();
+				},
+			});
+		}
+	</script>
+	<script>
+		//jQuery('button').on('click', (e) => {
+
+		//    jQuery('ul').animate({ scrollTop: jQuery('.scrolltome').offset().top }, "slow");
+
+		//});
+	</script>
+}

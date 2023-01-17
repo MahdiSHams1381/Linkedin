@@ -8,6 +8,7 @@ using Services;
 using DataBase;
 using System.Threading.Tasks;
 using Domain;
+using System.Security.Claims;
 
 namespace Linked.Controllers
 {
@@ -23,13 +24,16 @@ namespace Linked.Controllers
 
         public async Task<IActionResult> Index(int UserId)
         {
+            #region Add Json To Database
             //var temp = new ReadData(_User);
             //await temp.ReadDataFromJsonAsync();
+            #endregion
+
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "SignIn");
-            HomeCardViewModul homeCardViewModul = new HomeCardViewModul();
-            homeCardViewModul.Use_ThisUser = await _User.GetUserAsync(1);
-            
+            HomeCardViewModel homeCardViewModul = new HomeCardViewModel();
+            homeCardViewModul.User = await _User.GetUserAsync(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            ViewData["img"] = homeCardViewModul.User.Profile;
             return View(homeCardViewModul);
         }
 

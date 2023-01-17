@@ -33,6 +33,7 @@
         * Author: BootstrapMade.com
         * License: https://bootstrapmade.com/license/
         ======================================================== -->
+    @await RenderSectionAsync("Head", required: false)
     </head>
 
     <body>
@@ -46,7 +47,14 @@
         <div class="d-flex flex-column">
 
             <div class="profile">
-                <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
+                @if(ViewData["img"] == null){
+                <img src="/assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
+
+                }
+                else{
+                    <img src="@(ViewData["img"])" alt="" class="img-fluid rounded-circle">
+
+                }
                 <h1 class="text-light"><a asp-controller="Profile" asp-action="Index">@User.Identity.Name</a></h1>
                 <div class="social-links mt-3 text-center">
                     <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
@@ -59,10 +67,17 @@
 
             <nav id="navbar" class="nav-menu navbar">
                 <ul>
-                    <li><a asp-controller="Home" asp-action="Index" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
-                    <li><a asp-controller="Profile" asp-action="Index" class="nav-link scrollto"><i class="bx bx-user"></i> <span>Profile</span></a></li>
-                    <li><a asp-controller="SignUp" asp-action="Index" class="nav-link scrollto"><i class="bi bi-person-plus"></i> <span>SignUp</span></a></li>
-                    <li><a asp-controller="SignIn" asp-action="Index" class="nav-link scrollto"><i class="bi bi-person-check"></i> <span>SignIn</span></a></li>
+                    @if(User.Identity.IsAuthenticated){
+                        <li><a asp-controller="Home" asp-action="Index" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
+                        <li><a asp-controller="Profile" asp-action="Index" class="nav-link scrollto"><i class="bx bx-user"></i> <span>Profile</span></a></li>
+                        <li><a href="/Logout" class="nav-link scrollto"><i class="bx bx-log-out"></i> <span>Logout</span></a></li>
+
+                    }
+                    else{
+                        <li><a asp-controller="SignUp" asp-action="Index" class="nav-link scrollto"><i class="bi bi-person-plus"></i> <span>SignUp</span></a></li>
+                        <li><a asp-controller="SignIn" asp-action="Index" class="nav-link scrollto"><i class="bi bi-person-check"></i> <span>SignIn</span></a></li>
+
+                    }
                 </ul>
             </nav><!-- .nav-menu -->
         </div>
@@ -82,15 +97,15 @@
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
-<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-<script src="assets/vendor/aos/aos.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-<script src="assets/vendor/typed.js/typed.min.js"></script>
-<script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="/assets/vendor/aos/aos.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="/assets/vendor/typed.js/typed.min.js"></script>
+<script src="/assets/vendor/waypoints/noframework.waypoints.js"></script>
+<script src="/assets/vendor/php-email-form/validate.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

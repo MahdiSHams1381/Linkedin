@@ -40,7 +40,7 @@ namespace Linked.Controllers
             }
             else
             {
-                ModelState.AddModelError("Password", "Name Or Id doesn't Exist !");
+                ModelState.AddModelError("NameOrId", "Name Or Id doesn't Exist !");
                 return View(model);
             }
             return RedirectToAction("Index", "Home");

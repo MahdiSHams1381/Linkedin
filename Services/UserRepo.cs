@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain;
@@ -27,13 +28,15 @@ namespace Services
         }
         public async Task AddSpecialityToUserAsync(int userId, string SpecialtyTitle)
         {
+            if (string.IsNullOrWhiteSpace(SpecialtyTitle))
+                return;
             var specialty = await _context.Specialties.FirstOrDefaultAsync(n => n.Title == SpecialtyTitle);
             if (specialty == null)
             {
                 specialty = new Specialty() { Title = SpecialtyTitle };
                 await AddSpecialityAsync(specialty);
             }
-            if (specialty.Id == 0 || !await _context.SpecialtiesUsers.AnyAsync(n => n.SpecialtyId == specialty.Id && n.UserId == userId))
+            if ((specialty.Id == 0 || !await _context.SpecialtiesUsers.AnyAsync(n => n.SpecialtyId == specialty.Id && n.UserId == userId)))
             {
                 await SaveChangesAsync();
                 await _context.SpecialtiesUsers.AddAsync(new SpecialtyUser() { SpecialtyId = specialty.Id, UserId = userId });
@@ -49,19 +52,46 @@ namespace Services
         }
         public async Task<User> GetUserAsync(int userId)
         {
-            return await _context.Users.Include(n=>n.UserSpecialties).ThenInclude(n=>n.Specialty).FirstOrDefaultAsync(n=>n.Id == userId);
+            return await _context.Users.Include(n => n.UserSpecialties).ThenInclude(n => n.Specialty).FirstOrDefaultAsync(n => n.Id == userId);
         }
         public async Task<User> GetUserByNameOrId(string userId)
         {
-            if(userId.Any(n => Char.IsDigit(n) == false))
+            if (userId.All(n => Char.IsNumber(n) == true))
                 return await GetUserAsync(int.Parse(userId));
             return await _context.Users.Include(n => n.UserSpecialties).ThenInclude(n => n.Specialty).FirstOrDefaultAsync(n => n.Name == userId);
         }
 
         public async Task AddUserAsync(User user)
         {
-            if (!await _context.Users.AnyAsync(n => n.Name == user.Name ))
+            if (!await _context.Users.AnyAsync(n => n.Name == user.Name))
                 await _context.Users.AddAsync(user);
+        }
+        public async Task UpdateUserAsync(User user)
+        {
+            var curUser = await _context.Users.FindAsync(user.Id);
+            curUser.WorkPlace = user.WorkPlace;
+            curUser.DateOfBirth = user.DateOfBirth;
+            curUser.Profile = user.Profile;
+            curUser.Name = user.Name;
+            curUser.Field = user.Field;
+            curUser.UniversityLocation = user.UniversityLocation;
+        }
+
+        public async Task<bool> RemoveUserSpecialty(int userId, string specialtyTitle)
+        {
+            var spec = await _context.SpecialtiesUsers.Include(m => m.Specialty).FirstOrDefaultAsync(su => su.UserId == userId && su.Specialty.Title == specialtyTitle);
+            if (spec == null)
+                return false;
+            _context.SpecialtiesUsers.Remove(spec);
+            return true;
+        }
+        public async Task<bool> RemoveUserSpecialty(int userId, int specialtyId)
+        {
+            var spec = await _context.SpecialtiesUsers.FirstOrDefaultAsync(su => su.UserId == userId && su.SpecialtyId == specialtyId);
+            if (spec == null)
+                return false;
+            _context.SpecialtiesUsers.Remove(spec);
+            return true;
         }
         public async Task<bool> IsUserExistAsync(User user)
         {
@@ -69,9 +99,31 @@ namespace Services
                 return true;
             return false;
         }
+        public async Task<bool> IsUserExistAsync(string userName)
+        {
+            if (await _context.Users.AnyAsync(n => n.Name == userName))
+                return true;
+            return false;
+        }
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
+        }
+        public List<Specialty> GetSpecialties()
+        {
+            return _context.Specialties.ToList();
+        }
+        public IEnumerable<Specialty> GetSpecialties(string title)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+                return null;
+            List<Specialty> result = new List<Specialty>();
+            foreach (var item in title.Split(' ', '-', '_', '/', '\'', '\"'))
+            {
+                if (!string.IsNullOrWhiteSpace(item))
+                    result.AddRange(_context.Specialties.Where(n => n.Title.Contains(item)).ToList());
+            }
+            return result.Distinct();
         }
     }
 
