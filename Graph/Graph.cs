@@ -14,17 +14,61 @@ namespace Graph
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Graph g = new Graph();
+            List<Domain.SpecialtyUser> a = new List<SpecialtyUser>();
+            a.Add(new Domain.SpecialtyUser() { Id = 2, UserId = 2 });
+            a.Add(new Domain.SpecialtyUser() { Id = 4, UserId = 4 });
+            g.Add(new User() { Id = 1, Name = "ali", DateOfBirth = "1381", Field = "program", UserSpecialties = a });
+            a = new List<SpecialtyUser>();
+            a.Add(new Domain.SpecialtyUser() { Id = 3, UserId = 3 });
+            a.Add(new Domain.SpecialtyUser() { Id = 5, UserId = 5 });
+            g.Add(new User() { Id = 2, Name = "mohammad", DateOfBirth = "1582", Field = "Bargh", UserSpecialties = a });
+            a = new List<SpecialtyUser>();
+            a.Add(new Domain.SpecialtyUser() { Id = 4, UserId = 4 });
+            a.Add(new Domain.SpecialtyUser() { Id = 5, UserId = 5 });
+            g.Add(new User() { Id = 3, Name = "sadegh", DateOfBirth = "1698", Field = "sakhteman"});
+            g.Add(new User() { Id = 4, Name = "kazem", DateOfBirth = "1326", Field = "Ghiah"});
+            a = new List<SpecialtyUser>();
+            a.Add(new Domain.SpecialtyUser() { Id = 4, UserId = 4 });
+            g.Add(new User() { Id = 5, Name = "hamid", DateOfBirth = "9512", Field = "farsh", UserSpecialties = a });
+            Console.WriteLine(g.FindElementById(1));
+            Console.WriteLine(g.FindElementById(2));
+            Console.WriteLine(g.FindElementById(3));
+            Console.WriteLine(g.FindElementById(4));
+            Console.WriteLine(g.FindElementById(5));
+            Console.WriteLine(g.FindElementById(6));
+            Console.WriteLine(g.FindElementByName("ali"));
+            Console.WriteLine(g.FindElementByName("mohammad"));
+            Console.WriteLine(g.FindElementByName("sadegh"));
+            Console.WriteLine(g.FindElementByName("kazem"));
+            Console.WriteLine(g.FindElementByName("hamid"));
+            Console.WriteLine(g.FindElementByName("naser"));
+            Console.WriteLine(g.Alledge());
+            Console.WriteLine(g.AllUser());
+            Console.WriteLine(g.Getsize());
+            foreach (User d in g.GetConnection(1))
+                Console.WriteLine(d.Id);
+            foreach (User d in g.GetConnection(2))
+                Console.WriteLine(d.Id);
+            foreach (User d in g.GetConnection(3))
+                Console.WriteLine(d.Id);
+            foreach (User d in g.GetConnection(4))
+                Console.WriteLine(d.Id);
+            foreach (User d in g.GetConnection(5))
+                Console.WriteLine(d.Id);
+            foreach (User d in g.GetConnection(6))
+                Console.WriteLine(d.Id);
+
         }
     }
-     class Graph<E> : ADT_Graph
+    class Graph : ADT_Graph
     {
-      
 
-        E Root;
+
+        User Root;
         int size = 0;
-        Hashtable vertix = new Hashtable(); // the key = name and value  = user for search it good
-        Dictionary<User, User> Edge = new Dictionary<User, User>();
+        List<User> vertix = new List<User>(); // the key = name and value  = user for search it good
+        List<Edge> Edge = new List<Edge>();
         public int Getsize()
         {
             //get size
@@ -41,7 +85,7 @@ namespace Graph
             }
             return LIST_User_All;
         }
-        public Dictionary<User, User> Alledge()
+        public List<Edge> Alledge()
         {
             //get all edge (dictionary type)
             return Edge;
@@ -49,35 +93,37 @@ namespace Graph
         public void Add(int INT_ID)
         {
             //add when you dont have any name just with id
-            vertix.Add(INT_ID, new User() { Id = INT_ID });
+            vertix.Add(new User() { Id = INT_ID });
         }
         public User Add(User User_input)
-        {
-            User? User_Find = FindElementById(User_input.Id);
+         {
+            User User_Find = FindElementById(User_input.Id);
+            
             //if element is not being add them and after add connection of them and add ehe size
             if (User_Find == null)
             {
                 //add element(User)
-                vertix.Add(User_input.Name, User_input);
+                vertix.Add(User_input );
                 //add size
                 size++;
                 //add connection
-                foreach (Domain.SpecialtyUser User_item in User_input.UserSpecialties)
-                {
-                    //if the conection is being in the vertix
-                    if (FindElementById(User_item.UserId) == null)
+                if (User_input.UserSpecialties != null)
+                    foreach (Domain.SpecialtyUser User_item in User_input.UserSpecialties)
                     {
-                        Add(FindElementById(User_item.UserId));
-                    }
-                    //if the user is not being in the vertix list (the conection person in the json is not a complit user)
-                    else
-                    {
-                        Add(User_item.UserId);
-                    }
+                        //if the conection is being in the vertix
+                        if (FindElementById(User_item.UserId) != null)
+                        {
+                            Add(FindElementById(User_item.UserId));
+                        }
+                        //if the user is not being in the vertix list (the conection person in the json is not a complit user)
+                        else
+                        {
+                            Add(User_item.UserId);
+                        }
 
-                    //Add edge
-                    Edge.Add(User_input, Add(FindElementById(User_item.UserId)));
-                }
+                        //Add edge
+                        Edge.Add(new Edge() { UserFirst = User_input, UserLast = FindElementById(User_item.UserId) });
+                    }
 
             }
             //if element is being just add conection (just added the size for conection that is not bing)
@@ -86,18 +132,35 @@ namespace Graph
                 //if the data of user is not complit
                 if (User_Find.Name == null)
                 {
-                    User_Find = User_input;
+                    User_Find.Name = User_input.Name;
+                    User_Find.Field = User_input.Field;
+                    User_Find.Profile = User_input.Profile;
+                    User_Find.Id = User_input.Id;
+                    User_Find.DateOfBirth= User_input.DateOfBirth;
+                    User_Find.UniversityLocation= User_input.UniversityLocation;
+                    User_Find.UserSpecialties = User_input.UserSpecialties;
+                    User_Find.WorkPlace = User_input.WorkPlace;
                 }
                 //add connection
-                foreach (Domain.SpecialtyUser User_item in User_input.UserSpecialties)
-                {
-                    //Add vertix
-                    Add(FindElementById(User_item.UserId));
-                    //Add edge
-                    Edge.Add(User_input, Add(FindElementById(User_item.UserId)));
-                }
+                if (User_input.UserSpecialties != null)
+                    foreach (Domain.SpecialtyUser User_item in User_Find.UserSpecialties)
+                    {
+                        //Add vertix
+                        if (FindElementById(User_item.UserId) != null)
+                        {
+                            Add(FindElementById(User_item.UserId));
+                        }
+                        //if the user is not being in the vertix list (the conection person in the json is not a complit user)
+                        else
+                        {
+                            Add(User_item.UserId);
+                        }
+                        //Add edge
+
+                        Edge.Add(new Edge() { UserFirst = User_Find, UserLast = FindElementById(User_item.UserId) });
+                    }
             }
-            return User_input;
+            return User_Find;
 
         }
 
@@ -117,6 +180,7 @@ namespace Graph
                     return User_Item;
                 }
             }
+
             return null;
         }
 
@@ -135,10 +199,14 @@ namespace Graph
             return LIST_User_NameFound;
         }
 
-        public List<User> GetConnection(User User_Input)
+        public List<User> GetConnection(int INT_Id)
         {
+
             //return all connection from a vertix
+            User User_Input = FindElementById(INT_Id);
             List<User>? LIST_User_Conection = new List<User>();
+            if(User_Input != null)
+            if(User_Input.UserSpecialties!= null)
             foreach (Domain.SpecialtyUser User_Item1 in User_Input.UserSpecialties)
             {
                 LIST_User_Conection.Add(FindElementById(User_Item1.Id));
@@ -177,8 +245,9 @@ namespace Graph
             //if user is being remove them and all connection of them
             else
             {
-                vertix.Remove(User_Input.Id);
-                Edge.Remove(User_Input);
+                vertix.Remove(User_Input);
+                foreach (User User_ToRemove in vertix)
+                    Edge.Remove(new Edge() { UserFirst = User_Input, UserLast = User_ToRemove});
             }
             return User_Input;
         }
