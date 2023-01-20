@@ -1,160 +1,116 @@
-﻿@model Linked.cardViewModul.HomeCardViewModel ;
+﻿@using Domain ;
+@model Linked.cardViewModul.HomeCardViewModel ;
 @{
-	ViewData["Title"] = "Home";
+    ViewData["Title"] = "Home";
 
 }
 @section Head{
-	@if (ViewData["img"] == null)
-	{
-		<style>
-			#hero {
-				width: 100%;
-				height: 100vh;
-				background: url("/assets/img/hero-bg.jpg") top center;
-				background-size: cover;
-				background-attachment: fixed;
-				
-			}
-		</style>
-	}
-	else
-	{
-		<style>
-			#hero {
-				width: 100%;
-				height: 100vh;
-				background: url("@(ViewData["img"])") top center;
-				background-size: cover;
-				background-attachment: fixed;
-			}
-		</style>
-	}
+    @if (ViewData["img"] == null)
+    {
+        <style>
+            #hero {
+                width: 100%;
+                height: 100vh;
+                background: url("/assets/img/hero-bg.jpg") top center;
+                background-size: cover;
+                background-attachment: fixed;
+            }
+        </style>
+    }
+    else
+    {
+        <style>
+            #hero {
+                width: 100%;
+                height: 100vh;
+                background: url("@(ViewData["img"])") top center;
+                background-size: cover;
+                background-attachment: fixed;
+            }
+        </style>
+    }
 }
-	<!-- ======= Hero Section ======= -->
+<!-- ======= Hero Section ======= -->
 
-	<section id="hero" class="d-flex flex-column justify-content-center align-items-center">
-		<div class="hero-container" data-aos="fade-in">
-			<h1>@Model.User.Name</h1>
-			@{
-			string e = "";
-			foreach (var q in Model.User?.UserSpecialties)
-			{
-				e += q.Specialty.Title.Replace(" ","-") + ",";
-			}
+<section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+    <div class="hero-container" data-aos="fade-in">
+        <h1>@Model.User.Name</h1>
+        @{
+            string e = "";
+            foreach (var q in Model.User?.UserSpecialties)
+            {
+                e += q.Specialty.Title.Replace(" ", "-") + ",";
+            }
 
-			<p>I'm <span class="typed" data-typed-items=@e></span></p>
-		}
-	</div>
+            <p>I'm <span class="typed" data-typed-items=@e></span></p>
+        }
+    </div>
 </section><!-- End Hero -->
 
 <main id="main">
 
-	<!-- ======= About Section ======= -->
-	<section id="about" class="about" style="background-color:white">
-		<div class="container">
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about" style="background-color:white">
+        <div class="container">
 
-			<div class="section-title">
-				<h2>About</h2>
-				<p>
-					Birth : @Model.User.DateOfBirth <br />
-					Workplace : @Model.User.WorkPlace <br />
-					University Location : @Model.User.UniversityLocation <br />
-					Field : @Model.User.Field <br />
-					Specialties :
-					<div class="row">
-						@foreach (var specialty in Model.User.UserSpecialties)
-						{
-							<div class="col-lg-2 col-md-2 col-sm-3 col-xl-2">
-								@specialty.Specialty.Title
-							</div>
-						}
-					</div>
-				</p>
-			</div>
-		</div>
-	</section><!-- End About Section -->
-	<!-- ======= Testimonials Section ======= -->
-	<section id="testimonials" class="testimonials section-bg" style="background-color:whitesmoke">
-		<div class="container">
+            <div class="section-title">
+                <h2>About</h2>
+                <p>
+                    Birth : @Model.User.DateOfBirth <br />
+                    Workplace : @Model.User.WorkPlace <br />
+                    University Location : @Model.User.UniversityLocation <br />
+                    Field : @Model.User.Field <br />
+                    Specialties :
+                    <div class="row">
+                        @foreach (var specialty in Model.User.UserSpecialties)
+                        {
+                            <div class="col-lg-2 col-md-2 col-sm-3 col-xl-2">
+                                @specialty.Specialty.Title
+                            </div>
+                        }
+                    </div>
+                </p>
+            </div>
+        </div>
+    </section><!-- End About Section -->
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials section-bg" style="background-color:whitesmoke">
+        <div class="container">
 
-			<div class="section-title">
-				<h2>Testimonials</h2>
-				<p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-			</div>
+            <div class="section-title">
+                <h2>Testimonials</h2>
+                <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+            </div>
 
-			<div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
-				<div class="swiper-wrapper">
+            <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+                <div class="swiper-wrapper">
+                    @{
+                        foreach(User user in Model.Suggests){
+                    <div class="swiper-slide">
+                        <div class="testimonial-item" data-aos="fade-up">
+                            <p>
+                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                        Field :  @user.Field  <br /> Profile : @user.Profile <br/> UniversityLocation : @user.UniversityLocation , WorkPlace : @user.WorkPlace
 
-					<div class="swiper-slide">
-						<div class="testimonial-item" data-aos="fade-up">
-							<p>
-								<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-								Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-								<i class="bx bxs-quote-alt-right quote-icon-right"></i>
-							</p>
-							<img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-							<h3>Saul Goodman</h3>
-							<h4>Ceo &amp; Founder</h4>
-						</div>
-					</div><!-- End testimonial item -->
+                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                            </p>
+                                    @if (Model.User.Profile == null)
+                                    {
+                                        <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+                                    }else                                    {
+                                        <img url("@(ViewData["img"])") class="testimonial-img" alt="">
+                                    }
+                                    <h3>@user.Name</h3>
+                        </div>
+                    </div><!-- End testimonial item -->
+                    <!-- End testimonial item -->
+                    }
+                    }
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
 
-					<div class="swiper-slide">
-						<div class="testimonial-item" data-aos="fade-up" data-aos-delay="100">
-							<p>
-								<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-								Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-								<i class="bx bxs-quote-alt-right quote-icon-right"></i>
-							</p>
-							<img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-							<h3>Sara Wilsson</h3>
-							<h4>Designer</h4>
-						</div>
-					</div><!-- End testimonial item -->
-
-					<div class="swiper-slide">
-						<div class="testimonial-item" data-aos="fade-up" data-aos-delay="200">
-							<p>
-								<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-								Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-								<i class="bx bxs-quote-alt-right quote-icon-right"></i>
-							</p>
-							<img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-							<h3>Jena Karlis</h3>
-							<h4>Store Owner</h4>
-						</div>
-					</div><!-- End testimonial item -->
-
-					<div class="swiper-slide">
-						<div class="testimonial-item" data-aos="fade-up" data-aos-delay="300">
-							<p>
-								<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-								Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-								<i class="bx bxs-quote-alt-right quote-icon-right"></i>
-							</p>
-							<img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-							<h3>Matt Brandon</h3>
-							<h4>Freelancer</h4>
-						</div>
-					</div><!-- End testimonial item -->
-
-					<div class="swiper-slide">
-						<div class="testimonial-item" data-aos="fade-up" data-aos-delay="400">
-							<p>
-								<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-								Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-								<i class="bx bxs-quote-alt-right quote-icon-right"></i>
-							</p>
-							<img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-							<h3>John Larson</h3>
-							<h4>Entrepreneur</h4>
-						</div>
-					</div><!-- End testimonial item -->
-
-				</div>
-				<div class="swiper-pagination"></div>
-			</div>
-
-		</div>
-	</section><!-- End Testimonials Section -->
+        </div>
+    </section><!-- End Testimonials Section -->
 
 </main><!-- End #main -->
