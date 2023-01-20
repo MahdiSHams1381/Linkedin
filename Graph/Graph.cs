@@ -10,60 +10,8 @@ using System.Xml.Linq;
 
 namespace Graph
 {
-    internal class Program
+   public class Graph : ADT_Graph
     {
-        static void Main(string[] args)
-        {
-            Graph g = new Graph();
-            List<Domain.SpecialtyUser> a = new List<SpecialtyUser>();
-            a.Add(new Domain.SpecialtyUser() { Id = 2, UserId = 2 });
-            a.Add(new Domain.SpecialtyUser() { Id = 4, UserId = 4 });
-            g.Add(new User() { Id = 1, Name = "ali", DateOfBirth = "1381", Field = "program", UserSpecialties = a });
-            a = new List<SpecialtyUser>();
-            a.Add(new Domain.SpecialtyUser() { Id = 3, UserId = 3 });
-            a.Add(new Domain.SpecialtyUser() { Id = 5, UserId = 5 });
-            g.Add(new User() { Id = 2, Name = "mohammad", DateOfBirth = "1582", Field = "Bargh", UserSpecialties = a });
-            a = new List<SpecialtyUser>();
-            a.Add(new Domain.SpecialtyUser() { Id = 4, UserId = 4 });
-            a.Add(new Domain.SpecialtyUser() { Id = 5, UserId = 5 });
-            g.Add(new User() { Id = 3, Name = "sadegh", DateOfBirth = "1698", Field = "sakhteman"});
-            g.Add(new User() { Id = 4, Name = "kazem", DateOfBirth = "1326", Field = "Ghiah"});
-            a = new List<SpecialtyUser>();
-            a.Add(new Domain.SpecialtyUser() { Id = 4, UserId = 4 });
-            g.Add(new User() { Id = 5, Name = "hamid", DateOfBirth = "9512", Field = "farsh", UserSpecialties = a });
-            Console.WriteLine(g.FindElementById(1));
-            Console.WriteLine(g.FindElementById(2));
-            Console.WriteLine(g.FindElementById(3));
-            Console.WriteLine(g.FindElementById(4));
-            Console.WriteLine(g.FindElementById(5));
-            Console.WriteLine(g.FindElementById(6));
-            Console.WriteLine(g.FindElementByName("ali"));
-            Console.WriteLine(g.FindElementByName("mohammad"));
-            Console.WriteLine(g.FindElementByName("sadegh"));
-            Console.WriteLine(g.FindElementByName("kazem"));
-            Console.WriteLine(g.FindElementByName("hamid"));
-            Console.WriteLine(g.FindElementByName("naser"));
-            Console.WriteLine(g.Alledge());
-            Console.WriteLine(g.AllUser());
-            Console.WriteLine(g.Getsize());
-            foreach (User d in g.GetConnection(1))
-                Console.WriteLine(d.Id);
-            foreach (User d in g.GetConnection(2))
-                Console.WriteLine(d.Id);
-            foreach (User d in g.GetConnection(3))
-                Console.WriteLine(d.Id);
-            foreach (User d in g.GetConnection(4))
-                Console.WriteLine(d.Id);
-            foreach (User d in g.GetConnection(5))
-                Console.WriteLine(d.Id);
-            foreach (User d in g.GetConnection(6))
-                Console.WriteLine(d.Id);
-
-        }
-    }
-    class Graph : ADT_Graph
-    {
-
 
         User Root;
         int size = 0;
@@ -84,11 +32,6 @@ namespace Graph
                 LIST_User_All.Add(User_Item);
             }
             return LIST_User_All;
-        }
-        public List<Edge> Alledge()
-        {
-            //get all edge (dictionary type)
-            return Edge;
         }
         public void Add(int INT_ID)
         {

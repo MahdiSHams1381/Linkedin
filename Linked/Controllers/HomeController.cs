@@ -11,16 +11,21 @@ using Domain;
 using System.Security.Claims;
 using Graph;
 using Microsoft.AspNetCore.Routing.Internal;
+using System;
 
 namespace Linked.Controllers
 {
     public class HomeController : Controller
     {
+        List<Queue<User>> Queue_toGetLevelToThem = new List<Queue<User>>();
+        Queue<User> Queu_toLoop = new Queue<User>();
+        List<User> ToAddSugg = new List<User>();
+        Graph.Graph Graph_baseGraph = new Graph.Graph();
         private readonly ILogger<HomeController> _logger;
         private readonly UserRepo _User;
-        public HomeController(ILogger<HomeController> logger , UserRepo User)
+        public HomeController(ILogger<HomeController> logger, UserRepo User)
         {
-            
+
             _logger = logger;
             _User = User;
         }
@@ -37,44 +42,55 @@ namespace Linked.Controllers
             HomeCardViewModel homeCardViewModul = new HomeCardViewModel();
             homeCardViewModul.User = await _User.GetUserAsync(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             ViewData["img"] = homeCardViewModul.User.Profile;
-            //get the connectionof user(0 to5 )
-
-            //add to suggestion
-            List<User> ToAddSugg = new List<User>();
-            Graph.Graph g = new Graph.Graph();
-           foreach(User item1 in g.GetConnection(UserId))
+            int r = 0;
+            while (ToAddSugg.Count != 10 && r < Graph_baseGraph.Getsize()) { 
+                r++;
+            }
+            while (ToAddSugg.Count != 10  )
             {
-                ToAddSugg.Add(item1);
-                foreach (User item2 in GetConnection(item1.Id))
+                foreach (Queue<User> l in Queue_toGetLevelToThem)
                 {
-                    ToAddSugg.Add(item2);
-                    foreach (User item3 in GetConnection(item2.Id))
-                    {
-                        ToAddSugg.Add(item3);
-                        foreach (User item4 in GetConnection(item2.Id))
-                        {
-                            ToAddSugg.Add(item4);
-                            foreach (User item5 in GetConnection(item4.Id))
-                            {
-                                ToAddSugg.Add(item5);
-                                foreach (User item6 in GetConnection(item5.Id))
-                                {
-                                    ToAddSugg.Add(item6);
-                                }
-                            }
-                        }
-                    }
+                    ToAddSugg.Add(l.Dequeue());
                 }
             }
             homeCardViewModul.Suggests = ToAddSugg;
+
             return View(homeCardViewModul);
         }
 
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public  Queue<User> AddSugg(User User)
         {
-            return NotFound();
+            Queue<User> Queue_forReturn = new Queue<User>();
+            foreach (User item1 in Graph_baseGraph.GetConnection(User.Id))
+            {
+                foreach (String e1 in User.Field.Split(","))
+                {
+                    foreach (String r1 in item1.Field.Split(","))
+                    {
+                        if (e1 == r1)
+                        {
+
+                            if (item1.WorkPlace == User.WorkPlace)
+                            {
+                                if (item1.UniversityLocation == User.UniversityLocation)
+                                {
+                                    Queue_forReturn.Enqueue(item1);
+                                }
+                            }
+                            Queue_forReturn.Enqueue(item1);
+                        }
+                        Queue_forReturn.Enqueue(item1);
+                    }
+                    Queue_forReturn.Enqueue(item1);
+                }   
+            Queu_toLoop.Enqueue(item1);
         }
+            return Queue_forReturn;
     }
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return NotFound();
+    }
+}
 }
