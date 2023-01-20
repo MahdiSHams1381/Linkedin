@@ -12,6 +12,10 @@ namespace Graph
 {
    public class Graph : ADT_Graph
     {
+        public static void Main(String[] arge)
+        {
+            Graph graph = new Graph();
+        }
 
         User Root;
         int size = 0;
