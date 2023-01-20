@@ -46,8 +46,8 @@ namespace Linked
             services.AddDbContext<ContextDB>(options =>
                 options.UseSqlServer(
 
-                    //"Data Source=AMIN-LAPTOP\\SQLEXPRESS;Initial Catalog=Linked_DB;Integrated Security=true;MultipleActiveResultSets=true;",
-                    "Data Source=DESKTOP-0QSKDOG;Initial Catalog=Linked_DB;Integrated Security=true;MultipleActiveResultSets=true;",
+                    "Data Source=AMIN-LAPTOP\\SQLEXPRESS;Initial Catalog=Linked_DB;Integrated Security=true;MultipleActiveResultSets=true;",
+                    //"Data Source=DESKTOP-0QSKDOG;Initial Catalog=Linked_DB;Integrated Security=true;MultipleActiveResultSets=true;",
                     b => b.MigrationsAssembly("DataBase")),
                     ServiceLifetime.Transient
             );
@@ -57,6 +57,7 @@ namespace Linked
 
             #region Add Services to asp core
             services.AddTransient<UserRepo, UserRepo>();
+            services.AddTransient<ChatRepo, ChatRepo>();
             #endregion
 
         }
@@ -88,6 +89,11 @@ namespace Linked
             //{
             //    endpoints.MapHub<ChatHub>("/chathub");
             //});
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute("chathub", "/chathub");
+            });
 
             app.UseEndpoints(endpoints =>
             {

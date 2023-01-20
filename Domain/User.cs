@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
+using static Domain.ChatModels;
 
 namespace Domain
 {
@@ -26,7 +27,7 @@ namespace Domain
         public string Profile { get; set; }
 
         public List<SpecialtyUser> UserSpecialties { get; set; }
-
+        public List<Message> Messages { get; set; }
     }
 
     public class JsonUser 

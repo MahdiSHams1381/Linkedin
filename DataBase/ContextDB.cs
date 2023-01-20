@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain;
 using Microsoft.EntityFrameworkCore;
+using static Domain.ChatModels;
 
 namespace IMDB.DataLayer
 {
@@ -20,5 +21,11 @@ namespace IMDB.DataLayer
         public DbSet<SpecialtyUser> SpecialtiesUsers { get; set; }
 
         public DbSet<Connection> Connections { get; set; }
+
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<UserRoom> UserRooms { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+
+
     }
 }
