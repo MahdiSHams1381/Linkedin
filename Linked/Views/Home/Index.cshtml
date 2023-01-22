@@ -52,7 +52,7 @@
     <!-- ======= About Section ======= -->
     <section id="about" class="about" style="background-color:white">
         <div class="container">
-
+            <a href="/Api/addConection?id@(Model.User.Id)" class="btn btn-outline-primery" style="background-color : red">add to conection </a>
             <div class="section-title">
                 <h2>About</h2>
                 <p>
@@ -85,26 +85,36 @@
             <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
                 <div class="swiper-wrapper">
                     @{
-                        foreach(User user in Model.Suggests){
-                    <div class="swiper-slide">
-                        <div class="testimonial-item" data-aos="fade-up">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                        Field :  @user.Field  <br /> Profile : @user.Profile <br/> UniversityLocation : @user.UniversityLocation , WorkPlace : @user.WorkPlace
+                        foreach (User user in Model.Suggests)
+                        {
+                            <div class="swiper-slide">
+                                <div class="testimonial-item" data-aos="fade-up">
+                                    <p>
+                                        <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                        Field :  @user.Field  <br /> Profile : @user.Profile <br /> UniversityLocation : @user.UniversityLocation , WorkPlace : @user.WorkPlace
 
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
+                                        <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                    </p>
                                     @if (Model.User.Profile == null)
                                     {
-                                        <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-                                    }else                                    {
+                                        <a href="/Home/index?UserId=@(user.Id)">
+                                         
+                                            <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Home/index?UserId=@(user.Id)">
                                         <img url("@(ViewData["img"])") class="testimonial-img" alt="">
+                                  </a>
                                     }
                                     <h3>@user.Name</h3>
-                        </div>
-                    </div><!-- End testimonial item -->
-                    <!-- End testimonial item -->
-                    }
+                                </div>
+                            </div>
+
+                            <!-- End testimonial item -->
+                            <!-- End testimonial item -->
+                        }
                     }
                 </div>
                 <div class="swiper-pagination"></div>
