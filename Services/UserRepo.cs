@@ -44,11 +44,11 @@ namespace Services
         }
         public async Task AddTwoWayConnectionAsync(int firstUser, int secondUser)
         {
-            await _context.Connections.AddRangeAsync(new Connection[] { new Connection { FromUserId = firstUser, ToUserId = secondUser }, new Connection { FromUserId = secondUser, ToUserId = firstUser } });
+            await _context.UserConnection.AddRangeAsync(new Connection[] { new Connection { FromUserId = firstUser, ToUserId = secondUser }, new Connection { FromUserId = secondUser, ToUserId = firstUser } });
         }
         public async Task AddOneWayConnectionAsync(int fromUser, int toUser)
         {
-            await _context.Connections.AddAsync(new Connection { FromUserId = fromUser, ToUserId = toUser });
+            await _context.UserConnection.AddAsync(new Connection { FromUserId = fromUser, ToUserId = toUser });
         }
         public async Task<User> GetUserAsync(int userId)
         {
@@ -125,13 +125,13 @@ namespace Services
             }
             return result.Distinct();
         }
+        public List<Connection> GetConnections(int userId)
+        {
+            return _context.UserConnection.Where(n => n.FromUserId == userId).ToList();
+        }
         public IEnumerable<User> GetAllUsersAsync()
         {
             var result =  _context.Users.Include(n=>n.UserSpecialties).ThenInclude(n=>n.Specialty).ToList();
-            foreach (var user in result)
-            {
-                user.connection = _context.Connections.Where(n => n.FromUserId == user.Id).ToList();
-            }
             return result;
         }
     }

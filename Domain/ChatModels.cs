@@ -20,8 +20,7 @@ namespace Domain
             public Guid RoomId { get; set; }
 
             #region Foreign Key
-            [ForeignKey(nameof(SenderId))]
-            public User Sender { get; set; }
+
             [ForeignKey(nameof(RoomId))]
             public Room Room { get; set; }
             #endregion

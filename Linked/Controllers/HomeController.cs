@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Linked.cardViewModul;
-
+using DataBase;
 
 namespace Linked.Controllers
 {
@@ -74,10 +74,12 @@ namespace Linked.Controllers
             var Users = _User.GetAllUsersAsync();
             foreach (var user in Users)
             {
+                user.connection = _User.GetConnections(user.Id);
                 Graph_baseGraph.Add(user);
             }
 
             AddSugg(Graph_baseGraph.FindElementById(1));
+
             while (Queue_toGetLevelToThem.Count < 10 && Queu_toLoop.Count > 0)
             {
 
@@ -108,9 +110,17 @@ namespace Linked.Controllers
                     }
                 }
             }
-            homeCardViewModul.Suggests = ToAddSugg;
+            if (homeCardViewModul.Suggests == null || homeCardViewModul.Suggests.Count == 0)
+                AddRandomSugg();
+                
+                homeCardViewModul.Suggests = ToAddSugg;
 
             return View(homeCardViewModul);
+        }
+
+        public List<User> AddRandomSugg()
+        {
+            return null;
         }
 
         public Queue<User> AddSugg(User User)
@@ -120,8 +130,10 @@ namespace Linked.Controllers
             foreach (User item1 in Graph_baseGraph.GetConnection(User.Id))
             {
                 d = false;
-                foreach (String e1 in User.Field.Split(","))
+                if (User.Field != null)
+                    foreach (String e1 in User.Field.Split(","))
                 {
+                    if(item1.Field != null)
                     foreach (String r1 in item1.Field.Split(","))
                     {
                         if (e1 == r1)

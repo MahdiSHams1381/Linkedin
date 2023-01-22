@@ -20,7 +20,7 @@ namespace IMDB.DataLayer
 
         public DbSet<SpecialtyUser> SpecialtiesUsers { get; set; }
 
-        public DbSet<Connection> Connections { get; set; }
+        public DbSet<Connection> UserConnection { get; set; }
 
         public DbSet<Message> Messages { get; set; }
         public DbSet<UserRoom> UserRooms { get; set; }

@@ -37,11 +37,14 @@ namespace DataBase.Migrations
                     b.Property<int>("SenderId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RoomId");
 
-                    b.HasIndex("SenderId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Messages");
                 });
@@ -99,9 +102,14 @@ namespace DataBase.Migrations
                     b.Property<int>("ToUserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Connections");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserConnection");
                 });
 
             modelBuilder.Entity("Domain.Specialty", b =>
@@ -179,15 +187,11 @@ namespace DataBase.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.User", "Sender")
+                    b.HasOne("Domain.User", null)
                         .WithMany("Messages")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Room");
-
-                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Domain.ChatModels+Room", b =>
@@ -220,6 +224,13 @@ namespace DataBase.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Connection", b =>
+                {
+                    b.HasOne("Domain.User", null)
+                        .WithMany("connection")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("Domain.SpecialtyUser", b =>
                 {
                     b.HasOne("Domain.Specialty", "Specialty")
@@ -228,15 +239,13 @@ namespace DataBase.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.User", "User")
+                    b.HasOne("Domain.User", null)
                         .WithMany("UserSpecialties")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Specialty");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Specialty", b =>
@@ -246,6 +255,8 @@ namespace DataBase.Migrations
 
             modelBuilder.Entity("Domain.User", b =>
                 {
+                    b.Navigation("connection");
+
                     b.Navigation("Messages");
 
                     b.Navigation("UserSpecialties");
