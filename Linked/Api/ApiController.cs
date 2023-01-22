@@ -57,5 +57,15 @@ namespace Linked.Api
             await _user.SaveChangesAsync();
             return RedirectToAction("Index", "Profile");
         }
+
+        [HttpGet(nameof(AddConnection))]
+        public async Task<IActionResult> AddConnection(int id)
+        {
+            await _user.AddTwoWayConnectionAsync(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)), id);
+            await _user.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+
     }
 }
