@@ -26,8 +26,9 @@ namespace Domain
 
         public string Profile { get; set; }
 
-        public List<SpecialtyUser> UserSpecialties { get; set; }
+        public List<Connection> connection { get; set; }
         public List<Message> Messages { get; set; }
+        public List<SpecialtyUser> UserSpecialties { get; set; }
     }
 
     public class JsonUser 
@@ -77,7 +78,6 @@ namespace Domain
         public int SpecialtyId { get; set; }
 
         #region Foreign Key
-        public User User { get; set; }
         public Specialty Specialty { get; set; }
         #endregion
     }
@@ -92,6 +92,7 @@ namespace Domain
         public int FromUserId { get; set; }
 
         public int ToUserId { get; set; }
+
     }
 
 }

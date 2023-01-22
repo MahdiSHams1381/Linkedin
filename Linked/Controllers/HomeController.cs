@@ -1,8 +1,6 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-
 using Linked.Api;
 using Microsoft.Extensions.Logging;
 using Services;
@@ -14,20 +12,6 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Linked.cardViewModul;
 
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-using Linked.Api;
-using System.Collections.Generic;
-using Linked.cardViewModul;
-using Services;
-using DataBase;
-using System.Threading.Tasks;
-using Domain;
-using System.Security.Claims;
-using Graph;
-using Microsoft.AspNetCore.Routing.Internal;
-using System;
 
 namespace Linked.Controllers
 {
@@ -63,12 +47,12 @@ namespace Linked.Controllers
             //List<Domain.SpecialtyUser> a = new List<SpecialtyUser>();
             //a.Add(new Domain.SpecialtyUser() { Id = 3, UserId = 3 });
             //a.Add(new Domain.SpecialtyUser() { Id = 2, UserId = 2 });
-            //Graph_baseGraph.Add(new User() { Id = 1, Name = "ali", UniversityLocation = "esfahan", DateOfBirth= "1598" , Profile = "lkkkkk", WorkPlace = "rasht", UserSpecialties = a, Field = "aaa , bbb" });
+            //Graph_baseGraph.Add(new User() { Id = 1, Name = "ali", UniversityLocation = "esfahan", DateOfBirth = "1598", Profile = "lkkkkk", WorkPlace = "rasht", UserSpecialties = a, Field = "aaa , bbb" });
             //a = new List<SpecialtyUser>();
             //a.Add(new Domain.SpecialtyUser() { Id = 3, UserId = 3 });
             //a.Add(new Domain.SpecialtyUser() { Id = 4, UserId = 4 });
             //a.Add(new Domain.SpecialtyUser() { Id = 5, UserId = 5 });
-            //Graph_baseGraph.Add(new User() { Id = 2, Name = "mohammad", UniversityLocation = "tehren", DateOfBirth = "1598", Profile = "lkkkkk",  WorkPlace = "kashan", UserSpecialties = a, Field = "ccc , ddd" });
+            //Graph_baseGraph.Add(new User() { Id = 2, Name = "mohammad", UniversityLocation = "tehren", DateOfBirth = "1598", Profile = "lkkkkk", WorkPlace = "kashan", UserSpecialties = a, Field = "ccc , ddd" });
             //Graph_baseGraph.Add(new User() { Id = 3, Name = "kazem", UniversityLocation = "esfahan", DateOfBirth = "1598", Profile = "lkkkkk", WorkPlace = "rasht", Field = "aaa , ddd" });
             //a = new List<SpecialtyUser>();
             //a.Add(new Domain.SpecialtyUser() { Id = 7, UserId = 7 });
@@ -81,11 +65,18 @@ namespace Linked.Controllers
             //Graph_baseGraph.Add(new User() { Id = 7, Name = "ali", UniversityLocation = "esfahan", DateOfBirth = "1598", Profile = "lkkkkk", WorkPlace = "rasht", Field = "ccc , aaa" });
             //----------------------------------------------------------------------------------------------------------------
             //AddSugg(await _User.GetUserAsync(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-            for (int q = 0; q < 999; q = q++)
+            //for (int q = 0; q < 999; q = q++)
+            //{
+            //    var y = _User.GetUserByNameOrId(Convert.ToString(q)).Result;
+            //    Graph_baseGraph.Add(y);
+            //}
+
+            var Users = _User.GetAllUsersAsync();
+            foreach (var user in Users)
             {
-                var y = _User.GetUserByNameOrId(Convert.ToString(q)).Result;
-                Graph_baseGraph.Add(y);
+                Graph_baseGraph.Add(user);
             }
+
             AddSugg(Graph_baseGraph.FindElementById(1));
             while (Queue_toGetLevelToThem.Count < 10 && Queu_toLoop.Count > 0)
             {

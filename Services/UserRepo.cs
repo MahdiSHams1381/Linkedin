@@ -125,6 +125,15 @@ namespace Services
             }
             return result.Distinct();
         }
+        public IEnumerable<User> GetAllUsersAsync()
+        {
+            var result =  _context.Users.Include(n=>n.UserSpecialties).ThenInclude(n=>n.Specialty).ToList();
+            foreach (var user in result)
+            {
+                user.connection = _context.Connections.Where(n => n.FromUserId == user.Id).ToList();
+            }
+            return result;
+        }
     }
 
 }

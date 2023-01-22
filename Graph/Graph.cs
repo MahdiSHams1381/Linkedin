@@ -54,31 +54,35 @@ namespace Graph
                 //add size
                 size++;
                 //add connection
-                if (User_input.UserSpecialties != null)
-                    foreach (Domain.SpecialtyUser User_item in User_input.UserSpecialties)
+                if (User_input.connection != null)
+                    foreach (var User_item in User_input.connection)
                     {
                         //if the conection is being in the vertix
-                        if (FindElementById(User_item.UserId) != null)
+                        if (FindElementById(User_item.ToUserId) != null)
                         {
-                            Add(FindElementById(User_item.UserId));
+                            Add(FindElementById(User_item.ToUserId));
                         }
                         //if the user is not being in the vertix list (the conection person in the json is not a complit user)
                         else
                         {
-                            Add(User_item.UserId);
+                            Add(User_item.ToUserId);
                         }
 
                         //Add edge
-                        Edge.Add(new Edge() { UserFirst = User_input, UserLast = FindElementById(User_item.UserId) });
+                        Edge.Add(new Edge() { UserFirst = User_input, UserLast = FindElementById(User_item.ToUserId) });
+                        Edge.Add(new Edge() { UserFirst = FindElementById(User_item.ToUserId), UserLast = User_input });
                     }
 
             }
             //if element is being just add conection (just added the size for conection that is not bing)
             else
             {
+                
                 //if the data of user is not complit
                 if (User_Find.Name == null)
                 {
+                    User_Find = User_input;
+
                     User_Find.Name = User_input.Name;
                     User_Find.Field = User_input.Field;
                     User_Find.Profile = User_input.Profile;
@@ -87,25 +91,27 @@ namespace Graph
                     User_Find.UniversityLocation= User_input.UniversityLocation;
                     User_Find.UserSpecialties = User_input.UserSpecialties;
                     User_Find.WorkPlace = User_input.WorkPlace;
+                    User_Find.connection = User_input.connection;
                 }
                 //add connection
-                if (User_input.UserSpecialties != null)
-                    foreach (Domain.SpecialtyUser User_item in User_Find.UserSpecialties)
+                if (User_input.connection != null)
+                foreach (var User_item in User_input.connection)
+                {
+                    //if the conection is being in the vertix
+                    if (FindElementById(User_item.ToUserId) != null)
                     {
-                        //Add vertix
-                        if (FindElementById(User_item.UserId) != null)
-                        {
-                            Add(FindElementById(User_item.UserId));
-                        }
-                        //if the user is not being in the vertix list (the conection person in the json is not a complit user)
-                        else
-                        {
-                            Add(User_item.UserId);
-                        }
-                        //Add edge
-
-                        Edge.Add(new Edge() { UserFirst = User_Find, UserLast = FindElementById(User_item.UserId) });
+                        Add(FindElementById(User_item.ToUserId));
                     }
+                    //if the user is not being in the vertix list (the conection person in the json is not a complit user)
+                    else
+                    {
+                        Add(User_item.ToUserId);
+                    }
+
+                    //Add edge
+                    Edge.Add(new Edge() { UserFirst = User_input, UserLast = FindElementById(User_item.ToUserId) });
+                    Edge.Add(new Edge() { UserFirst = FindElementById(User_item.ToUserId), UserLast = User_input });
+                }
             }
             return User_Find;
 
