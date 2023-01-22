@@ -1,8 +1,6 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-
 using Linked.Api;
 using Microsoft.Extensions.Logging;
 using Services;
@@ -13,21 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Linked.cardViewModul;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-using Linked.Api;
-using System.Collections.Generic;
-using Linked.cardViewModul;
-using Services;
 using DataBase;
-using System.Threading.Tasks;
-using Domain;
-using System.Security.Claims;
-using Graph;
-using Microsoft.AspNetCore.Routing.Internal;
-using System;
 
 namespace Linked.Controllers
 {
@@ -60,25 +44,25 @@ namespace Linked.Controllers
             homeCardViewModul.User = await _User.GetUserAsync(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             ViewData["img"] = homeCardViewModul.User.Profile;
             //---------------------------------------------------------------------------------------------------------------
-            List<Domain.SpecialtyUser> a = new List<SpecialtyUser>();
-            a.Add(new Domain.SpecialtyUser() { Id = 3, UserId = 3 });
-            a.Add(new Domain.SpecialtyUser() { Id = 2, UserId = 2 });
-            Graph_baseGraph.Add(new User() { Id = 1, Name = "behdad Levine", UniversityLocation = "AB", DateOfBirth = "1374/8/10", Profile = "tfgjj", WorkPlace = "Intel", UserSpecialties = a, Field = "AA"  });
-            a = new List<SpecialtyUser>();
-            a.Add(new Domain.SpecialtyUser() { Id = 3, UserId = 3 });
-            a.Add(new Domain.SpecialtyUser() { Id = 4, UserId = 4 });
-            a.Add(new Domain.SpecialtyUser() { Id = 5, UserId = 5 });
-            Graph_baseGraph.Add(new User() { Id = 2, Name = "azadeh Morgan", UniversityLocation = "tehren", DateOfBirth = "1598", Profile = "lkkkkk", WorkPlace = "kashan", UserSpecialties = a, Field = "ccc , ddd" });
-            Graph_baseGraph.Add(new User() { Id = 3, Name = "salar Spears", UniversityLocation = "esfahan", DateOfBirth = "1598", Profile = "ljokggc h", WorkPlace = "rasht", Field = "aaa , ddd" });
-            a = new List<SpecialtyUser>();
-            a.Add(new Domain.SpecialtyUser() { Id = 7, UserId = 7 });
-            a.Add(new Domain.SpecialtyUser() { Id = 6, UserId = 6 });
-            Graph_baseGraph.Add(new User() { Id = 4, Name = "kos Cash", UniversityLocation = "esfahan", DateOfBirth = "1598", Profile = "pipuiy", WorkPlace = "rasht", UserSpecialties = a, Field = "ccc , aaa" });
-            Graph_baseGraph.Add(new User() { Id = 5, Name = "rahim Erickson", UniversityLocation = "esfahan", WorkPlace = "kashan", DateOfBirth = "1598", Profile = "sfsx", Field = "bbb , aaa" });
-            a = new List<SpecialtyUser>();
-            a.Add(new Domain.SpecialtyUser() { Id = 5, UserId = 5 });
-            Graph_baseGraph.Add(new User() { Id = 6, Name = "koosha Alston", DateOfBirth = "1598", Profile = "bjggvn", UniversityLocation = "esfahan", WorkPlace = "kashan", UserSpecialties = a, Field = "ddd , ddd" });
-            Graph_baseGraph.Add(new User() { Id = 7, Name = "ghobad Langley", UniversityLocation = "esfahan", DateOfBirth = "1598", Profile = ";dfgkd;k", WorkPlace = "rasht", Field = "ccc , aaa" });
+            //List<Domain.SpecialtyUser> a = new List<SpecialtyUser>();
+            //a.Add(new Domain.SpecialtyUser() { Id = 3, UserId = 3 });
+            //a.Add(new Domain.SpecialtyUser() { Id = 2, UserId = 2 });
+            //Graph_baseGraph.Add(new User() { Id = 1, Name = "ali", UniversityLocation = "esfahan", DateOfBirth = "1598", Profile = "lkkkkk", WorkPlace = "rasht", UserSpecialties = a, Field = "aaa , bbb" });
+            //a = new List<SpecialtyUser>();
+            //a.Add(new Domain.SpecialtyUser() { Id = 3, UserId = 3 });
+            //a.Add(new Domain.SpecialtyUser() { Id = 4, UserId = 4 });
+            //a.Add(new Domain.SpecialtyUser() { Id = 5, UserId = 5 });
+            //Graph_baseGraph.Add(new User() { Id = 2, Name = "mohammad", UniversityLocation = "tehren", DateOfBirth = "1598", Profile = "lkkkkk", WorkPlace = "kashan", UserSpecialties = a, Field = "ccc , ddd" });
+            //Graph_baseGraph.Add(new User() { Id = 3, Name = "kazem", UniversityLocation = "esfahan", DateOfBirth = "1598", Profile = "lkkkkk", WorkPlace = "rasht", Field = "aaa , ddd" });
+            //a = new List<SpecialtyUser>();
+            //a.Add(new Domain.SpecialtyUser() { Id = 7, UserId = 7 });
+            //a.Add(new Domain.SpecialtyUser() { Id = 6, UserId = 6 });
+            //Graph_baseGraph.Add(new User() { Id = 4, Name = "sadegh", UniversityLocation = "esfahan", DateOfBirth = "1598", Profile = "lkkkkk", WorkPlace = "rasht", UserSpecialties = a, Field = "ccc , aaa" });
+            //Graph_baseGraph.Add(new User() { Id = 5, Name = "naser", UniversityLocation = "esfahan", WorkPlace = "kashan", DateOfBirth = "1598", Profile = "lkkkkk", Field = "bbb , aaa" });
+            //a = new List<SpecialtyUser>();
+            //a.Add(new Domain.SpecialtyUser() { Id = 5, UserId = 5 });
+            //Graph_baseGraph.Add(new User() { Id = 6, Name = "saeed", DateOfBirth = "1598", Profile = "lkkkkk", UniversityLocation = "esfahan", WorkPlace = "kashan", UserSpecialties = a, Field = "ddd , ddd" });
+            //Graph_baseGraph.Add(new User() { Id = 7, Name = "ali", UniversityLocation = "esfahan", DateOfBirth = "1598", Profile = "lkkkkk", WorkPlace = "rasht", Field = "ccc , aaa" });
             //----------------------------------------------------------------------------------------------------------------
             //AddSugg(await _User.GetUserAsync(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             //for (int q = 0; q < 999; q = q++)
@@ -86,7 +70,16 @@ namespace Linked.Controllers
             //    var y = _User.GetUserByNameOrId(Convert.ToString(q)).Result;
             //    Graph_baseGraph.Add(y);
             //}
+
+            var Users = _User.GetAllUsersAsync();
+            foreach (var user in Users)
+            {
+                user.connection = _User.GetConnections(user.Id);
+                Graph_baseGraph.Add(user);
+            }
+
             AddSugg(Graph_baseGraph.FindElementById(1));
+
             while (Queue_toGetLevelToThem.Count < 10 && Queu_toLoop.Count > 0)
             {
 
@@ -117,9 +110,17 @@ namespace Linked.Controllers
                     }
                 }
             }
-            homeCardViewModul.Suggests = ToAddSugg;
+            if (homeCardViewModul.Suggests == null || homeCardViewModul.Suggests.Count == 0)
+                AddRandomSugg();
+                
+                homeCardViewModul.Suggests = ToAddSugg;
 
             return View(homeCardViewModul);
+        }
+
+        public List<User> AddRandomSugg()
+        {
+            return null;
         }
 
         public Queue<User> AddSugg(User User)
@@ -129,8 +130,10 @@ namespace Linked.Controllers
             foreach (User item1 in Graph_baseGraph.GetConnection(User.Id))
             {
                 d = false;
-                foreach (String e1 in User.Field.Split(","))
+                if (User.Field != null)
+                    foreach (String e1 in User.Field.Split(","))
                 {
+                    if(item1.Field != null)
                     foreach (String r1 in item1.Field.Split(","))
                     {
                         if (e1 == r1)
@@ -174,5 +177,6 @@ namespace Linked.Controllers
         {
             return NotFound();
         }
+
     }
 }
