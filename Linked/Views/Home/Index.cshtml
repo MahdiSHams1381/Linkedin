@@ -31,7 +31,6 @@
     }
 }
 <!-- ======= Hero Section ======= -->
-
 <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
     <div class="hero-container" data-aos="fade-in">
         <h1>@Model.User.Name</h1>
@@ -41,8 +40,9 @@
             {
                 e += q.Specialty.Title.Replace(" ", "-") + ",";
             }
-
+         //   <p>I'm <span class="typed" data-typed-items=@e></span></p>
             <p>I'm <span class="typed" data-typed-items=@e></span></p>
+
         }
     </div>
 </section><!-- End Hero -->
@@ -52,6 +52,7 @@
     <!-- ======= About Section ======= -->
     <section id="about" class="about" style="background-color:white">
         <div class="container">
+
             <a href="/Api/addConection?id@(Model.User.Id)" class="btn btn-outline-primery" style="background-color : red">add to conection </a>
             <div class="section-title">
                 <h2>About</h2>
